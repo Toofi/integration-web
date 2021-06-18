@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartModule } from 'primeng/chart';
 
 import { MenubarModule } from 'primeng/menubar';
 import { TableModule } from 'primeng/table';
@@ -36,6 +37,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     MenubarModule,
     TableModule,
+    ChartModule,
     RouterModule.forRoot(appRoutes),
   ],
   providers: [],

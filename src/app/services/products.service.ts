@@ -40,9 +40,6 @@ export class ProductsService {
 
     let result: any[] = [];
     this.httpClient
-      .get<any[]>(`${this.httpTracker.getApiUrl()}/api/products`, { headers: this.headers, responseType: 'json' })
-      .pipe(map(Product) => {
-
-      })
+      .get<any[]>(`${this.httpTracker.getApiUrl()}/api/products`, { headers: this.headers, responseType: 'json' });
   };
 }
