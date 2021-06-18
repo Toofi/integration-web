@@ -1,7 +1,8 @@
 export interface User {
+    _id?: string,
     username: string,
     firstName: string,
     lastName: string,
-    emails: string | Array<string>,
+    emails: Array<string>,
     password: string
 }
