@@ -1,8 +1,7 @@
 <p-table [value]="products" [lazy]="true" (onLazyLoad)="this.productsService.getProducts()">
     <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon>
-            </th>
+            <th>Name</th>
             <th>Image</th>
             <th>Price</th>
         </tr>

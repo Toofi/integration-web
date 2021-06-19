@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpTrackerService } from 'src/app/services/http-tracker.service';
 import { ProductsService } from 'src/app/services/products.service';
 
+import { SortEvent } from 'primeng/api';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -26,6 +28,7 @@ export class DashboardComponent implements OnInit {
       console.log(this.products.prices);
       
     });
+
   };
 
   // this.products = this.productsService.getProducts();
