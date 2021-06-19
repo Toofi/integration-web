@@ -9,27 +9,26 @@ import { HttpTrackerService } from './http-tracker.service';
 })
 export class ProductsService {
 
-  private token: string | null = sessionStorage.getItem('trackerToken') ? sessionStorage.getItem('trackerToken') : null;
 
-  private headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${this.token}`
-  });
+  // private signHeader = new HttpHeaders({
+  //   'Content-Type': 'application/x-www-form-urlencoded'
+  // });
 
-  private signHeader = new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded'
-  });
-
-  private postHeader = new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': `Bearer ${this.token}`
-  });
+  // private postHeader = new HttpHeaders({
+  //   'Content-Type': 'application/x-www-form-urlencoded',
+  //   'Authorization': `Bearer ${this.token}`
+  // });
 
   constructor(private httpClient: HttpClient,
     private httpTracker: HttpTrackerService) { }
 
     getProducts(): Observable<object> {
+      let token: string | null = sessionStorage.getItem('trackerToken') ? sessionStorage.getItem('trackerToken') : null;
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      });
       return this.httpClient
-      .get<object>(`${this.httpTracker.getApiUrl()}/api/my-products`, { headers: this.headers, responseType: 'json', withCredentials: true });
+      .get<object>(`${this.httpTracker.getApiUrl()}/api/my-products`, { headers: headers, responseType: 'json', withCredentials: true });
     }
 }

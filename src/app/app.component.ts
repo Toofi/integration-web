@@ -4,8 +4,6 @@ import { PrimeNGConfig } from 'primeng/api';
 import { Credentials } from './interfaces/credentials';
 import { Product } from './interfaces/product';
 import { User } from './interfaces/user';
-import { HttpTrackerService } from './services/http-tracker.service';
-import { ProductsService } from './services/products.service';
 import { UsersService } from './services/users.service';
 
 @Component({
@@ -35,13 +33,12 @@ export class AppComponent implements OnInit {
 
   product: Product = { name: 'test2', };
 
-  constructor(private primengConfig: PrimeNGConfig,
-              private httpTracker: HttpTrackerService,
-              private usersService: UsersService,) {}
+  constructor(private primengConfig: PrimeNGConfig,) {}
 
   ngOnInit() {
+      sessionStorage.removeItem('trackerId');
+      sessionStorage.removeItem('trackerToken');
       this.primengConfig.ripple = true;
-      this.httpTracker.logIn(this.credentials);
       // console.log('TRACKERID'+sessionStorage.getItem('trackerId'));
       // this.resultGetUsers = this.usersService.getUsers();
       // this.resultGetUsers = this.usersService.getUser(sessionStorage.getItem('trackerId'));

@@ -1,1 +1,11 @@
-<p>auth works!</p>
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <span class="p-float-label">
+        <input id="float-input" type="text" name="name" pInputText ngModel>
+        <label for="float-input">Nom d'utilisateur</label>
+    </span>
+    <span class="p-float-label">
+        <input id="float-input" type="password" name="password" pPassword ngModel>
+        <label for="float-input">Mot de passe</label>
+    </span>
+    <p-button type="submit" label="Se connecter"></p-button>
+</form>
