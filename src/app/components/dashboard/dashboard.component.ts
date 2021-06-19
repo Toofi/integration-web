@@ -18,24 +18,27 @@ export class DashboardComponent implements OnInit {
     'Authorization': `Bearer ${this.token}`
   });
 
-  constructor(private productsService: ProductsService,
+  constructor(public productsService: ProductsService,
     private httpClient: HttpClient,
-    private httpTracker: HttpTrackerService) { }
-  products: Array<any> = [];
+    private httpTracker: HttpTrackerService) { 
+
+    }
+  products: Array<any> = this.productsService.getProducts();
 
   ngOnInit(): void {
-    this.httpClient
-      .get<any[]>(`${this.httpTracker.getApiUrl()}/api/my-products`, { headers: this.headers, responseType: 'json', withCredentials: true })
-      .subscribe(element => {
-        this.products = element;
-        console.log(this.products);
-        for (const element of this.products) {
-          console.log(element.prices);
-           
-          
-          
-        }
-      });
+    // this.httpClient
+    //   .get<any[]>(`${this.httpTracker.getApiUrl()}/api/my-products`, { headers: this.headers, responseType: 'json', withCredentials: true })
+    //   .subscribe(element => {
+    //     this.products = element;
+    //     // for (let index = 0; index < this.products.length; index++) {
+    //     //   const prices = this.products[index].prices;
+    //     //   for (let index = 0; index < prices.length; index++) {
+    //     //     const element = prices[index].price;
+    //     //     console.log(element);
+    //       // }
+    //     // }
+    //   });
+    console.log(this.products)
   };
 
   // this.products = this.productsService.getProducts();

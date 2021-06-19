@@ -1,12 +1,12 @@
-<p-table [value]="products">
+<p-table [value]="products" [lazy]="true" (onLazyLoad)="this.productsService.getProducts()">
     <ng-template pTemplate="header">
         <tr>
-            <th>Name</th>
+            <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
             <th>Image</th>
             <th>Price</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-product>
+    <ng-template pTemplate="body" let-product async>
         <tr>
             <td>{{product.name}}</td>
             <td><img [src]="product.image" [alt]="product.name" width="100" class="p-shadow-4" /></td>
@@ -14,5 +14,4 @@
         </tr>
     </ng-template>
 </p-table>
-
 <!-- this.products[0].prices[0].price.$numberDecimal -->

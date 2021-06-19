@@ -27,19 +27,24 @@ export class ProductsService {
   constructor(private httpClient: HttpClient,
     private httpTracker: HttpTrackerService) { }
 
-  getProducts() {
-    // var result: any[] = [];
-    // this.httpClient
-    //   .get<any[]>(`${this.httpTracker.getApiUrl()}/api/products`, { headers: this.headers, responseType: 'json' })
-    //   .subscribe((values) => {
-    //     console.log(values)
-    //     console.log(result)
-    //     result = values.map(element => 'element'+element);
-    //   });
-    //   return result;
-
-    let result: any[] = [];
-    this.httpClient
-      .get<any[]>(`${this.httpTracker.getApiUrl()}/api/products`, { headers: this.headers, responseType: 'json' });
-  };
+    getProducts() {
+      let result: Array<any>= [];
+      this.httpClient
+      .get<any[]>(`${this.httpTracker.getApiUrl()}/api/my-products`, { headers: this.headers, responseType: 'json', withCredentials: true })
+      .subscribe(response => {
+        result = response;
+        console.log('resultat',result);
+        
+        // for (let index = 0; index < this.products.length; index++) {
+        //   const prices = this.products[index].prices;
+        //   for (let index = 0; index < prices.length; index++) {
+        //     const element = prices[index].price;
+        //     console.log(element);
+          // }
+        // }
+      });
+      console.log(result);
+      
+      return result;
+    }
 }

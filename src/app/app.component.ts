@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
       this.httpTracker.logIn(this.credentials);
       // console.log('TRACKERID'+sessionStorage.getItem('trackerId'));
       // this.resultGetUsers = this.usersService.getUsers();
-      this.resultGetUsers = this.usersService.getUser(sessionStorage.getItem('trackerId'));
+      // this.resultGetUsers = this.usersService.getUser(sessionStorage.getItem('trackerId'));
       // this.resultGetUsers = this.usersService.signIn(this.user);
 
   }
