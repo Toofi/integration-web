@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Credentials } from 'src/app/interfaces/credentials';
 import { HttpTrackerService } from 'src/app/services/http-tracker.service';
 
@@ -10,22 +11,30 @@ import { HttpTrackerService } from 'src/app/services/http-tracker.service';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private httpTracker: HttpTrackerService) { }
-
+  @Output() display = new EventEmitter<boolean>();
+  loading: boolean = false;
   private auth: Credentials = { username: '', password: '' };
+
+  constructor(private httpTracker: HttpTrackerService,
+    private router: Router) { }
+
 
   ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
-    this.httpTracker.logIn(this.auth).unsubscribe();
   }
 
   onSubmit(form: NgForm) {
     console.log(form.value['name']);
     this.auth.username = form.value['name'];
     this.auth.password = form.value['password'];
-    this.httpTracker.logIn(this.auth);
+    this.httpTracker.logIn(this.auth).subscribe(() => {
+      console.log("Login réussi")
+      this.loading = false;
+      this.display.emit(false);
+      this.router.navigate(['/dashboard']);
+    });
   }
 
 }

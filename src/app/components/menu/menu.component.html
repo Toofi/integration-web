@@ -4,28 +4,15 @@
     <ng-template pTemplate="end">
     </ng-template>
 </p-menubar>
-<p-dialog header="Ajouter un produit" [(visible)]="display" [modal]="true">
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-        <span class="p-float-label">
-            <input id="float-input" type="text" name="username" pInputText ngModel>
-            <label for="float-input">Nom d'utilisateur</label>
-        </span>
-        <span class="p-float-label">
-            <input id="float-input" type="text" name="firstName" pInputText ngModel>
-            <label for="float-input">Prénom</label>
-        </span>
-        <span class="p-float-label">
-            <input id="float-input" type="text" name="lastName" pInputText ngModel>
-            <label for="float-input">Nom</label>
-        </span>
-        <span class="p-float-label">
-            <input id="float-input" type="text" name="emails" pInputText ngModel>
-            <label for="float-input">E-mails</label>
-        </span>
-        <span class="p-float-label">
-            <input id="float-input" type="password" name="password" pPassword ngModel>
-            <label for="float-input">Mot de passe</label>
-        </span>
-        <p-button type="submit" label="Se connecter"></p-button>
-    </form>
-</p-dialog>
+<div [ngSwitch]="modalType">
+    <div *ngSwitchCase=1>
+        <p-dialog header="S'inscrire" [(visible)]="display" [modal]="true">
+            <app-sign (display)="setDisplay($event)"></app-sign>
+        </p-dialog>
+    </div>
+    <div *ngSwitchCase=2>
+        <p-dialog header="Se connecter" [(visible)]="display" [modal]="true">
+            <app-auth (display)="setDisplay($event)"></app-auth>
+        </p-dialog>
+    </div>
+</div>

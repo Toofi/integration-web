@@ -10,6 +10,7 @@ import { MenuItem } from 'primeng/api';
 export class MenuComponent implements OnInit {
 
   display: boolean = false;
+  public modalType: number = 0;
 
   constructor() { }
 
@@ -25,16 +26,24 @@ export class MenuComponent implements OnInit {
       {
         label: "S'inscrire",
         icon: 'pi pi-fw pi-user-plus',
-        command: () => { this.display = true;}
+        command: () => { 
+          this.modalType = 1;
+          this.display = true;
+        }
       },
       {
         label: "Se connecter",
         icon: 'pi pi-fw pi-home',
-        routerLink: ['/auth']
+        command: () => { 
+          this.modalType = 2;
+          this.display = true;
+        }
       },
     ];
   };
 
-  onSubmit(form: NgForm) { };
+  setDisplay (value: boolean) {
+    this.display = value;
+  }
 
 }
