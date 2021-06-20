@@ -7,6 +7,8 @@ import { ProductsService } from 'src/app/services/products.service';
 import { SortEvent } from 'primeng/api';
 import { UsersService } from 'src/app/services/users.service';
 import { Product } from 'src/app/interfaces/product';
+import { NgForm } from '@angular/forms';
+import { formatCurrency } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,25 +18,37 @@ import { Product } from 'src/app/interfaces/product';
 export class DashboardComponent implements OnInit {
   products: any;
 
-  product: Product = {
-    url: "https://www.amazon.fr/Console-Game-Watch-Legend-Nintendo/dp/B097F6916C/ref=zg_bs_videogames_home_3?_encoding=UTF8&psc=1&refRID=HTWX9WDADTK3W1HXVK31"
-  }
-
   constructor(public productsService: ProductsService,
     private usersService: UsersService,
     private httpClient: HttpClient,
-    private httpTracker: HttpTrackerService) { 
+    private httpTracker: HttpTrackerService) {
 
-    }
-
-  ngOnInit(): void {
+  }
+  
+  getProducts() {
     this.productsService.getProducts().subscribe(prod => {
       this.products = Object.values(prod);
-      // this.productsService.postProducts(this.product).subscribe((ok) => console.log('ok'), (pasok) => { console.log('pas ok');
-      // });
-      console.log(this.products.prices);
-      
+      console.log(this.products);
     });
+  };
+
+  removeProduct(product: Product, productId: string) {
+    const index = this.products.indexOf(product);
+    console.log(productId);
+
+    this.productsService.removeProduct(productId).subscribe(() => console.log("Suppression réussie"));
+    this.products.splice(index, 1);
+  }
+
+  addProduct(f: NgForm) {
+    const product: Product = {
+      url: f.value['url']
+    }
+    this.productsService.postProduct(product).subscribe(() => console.log("Ajout réussi"));
+  }
+
+  ngOnInit(): void {
+    this.getProducts();
 
   };
 

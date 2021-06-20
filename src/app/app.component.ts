@@ -34,8 +34,8 @@ export class AppComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig,) {}
 
   ngOnInit() {
-      sessionStorage.removeItem('trackerId');
-      sessionStorage.removeItem('trackerToken');
+      // sessionStorage.removeItem('trackerId');
+      // sessionStorage.removeItem('trackerToken');
       this.primengConfig.ripple = true;
       // console.log('TRACKERID'+sessionStorage.getItem('trackerId'));
       // this.resultGetUsers = this.usersService.getUsers();

@@ -32,7 +32,7 @@ export class ProductsService {
       .get<object>(`${this.httpTracker.getApiUrl()}/api/my-products`, { headers: headers, responseType: 'json', withCredentials: true });
   }
 
-  postProducts(product: Product): Observable<object> {
+  postProduct(product: Product): Observable<object> {
     let token: string | null = sessionStorage.getItem('trackerToken') ? sessionStorage.getItem('trackerToken') : null;
     const postHeader = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -43,6 +43,16 @@ export class ProductsService {
 
     return this.httpClient
       .post(`${this.httpTracker.getApiUrl()}/api/products`, body.toString(), { headers: postHeader, withCredentials: true });
+  };
+
+  removeProduct(productId: string) {
+    let token: string | null = sessionStorage.getItem('trackerToken') ? sessionStorage.getItem('trackerToken') : null;
+    console.log(productId);
+    const header = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.httpClient
+      .delete(`${this.httpTracker.getApiUrl()}/api/products/${productId}`, { headers: header, withCredentials: true});
   };
 
 }

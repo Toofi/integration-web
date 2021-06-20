@@ -15,7 +15,14 @@
                     {{price.price.$numberDecimal}}
                 </span>
             </td>
+            <td><p-button type="submit" (click)="removeProduct(product, product.productId)" label="Supprimer"></p-button></td>
         </tr>
     </ng-template>
 </p-table>
-<!-- this.products[0].prices[0].price.$numberDecimal -->
+<form (ngSubmit)="addProduct(f)" #f="ngForm">
+    <span class="p-float-label">
+        <input id="float-input" type="text" name="url" pInputText ngModel>
+        <label for="float-input">Url</label>
+    </span>
+    <p-button type="submit" label="Ajouter un nouveau produit"></p-button>
+</form>
