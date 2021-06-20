@@ -20,9 +20,9 @@
         </tr>
     </ng-template>
 </p-table>
-<p-dialog header="Ajouter un produit" [(visible)]="display">
+<p-dialog header="Ajouter un produit" [(visible)]="display" [modal]="true">
     <form *ngIf="!loading" (ngSubmit)="addProduct(f)" #f="ngForm">
-        <span class="p-float-label">
+        <span class="p-float-label" style="margin: 20px;">
             <input id="float-input" type="text" name="url" pInputText ngModel>
             <label for="float-input">Url</label>
         </span>

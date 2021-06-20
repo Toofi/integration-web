@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -7,6 +8,8 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+
+  display: boolean = false;
 
   constructor() { }
 
@@ -22,7 +25,7 @@ export class MenuComponent implements OnInit {
       {
         label: "S'inscrire",
         icon: 'pi pi-fw pi-user-plus',
-        routerLink: ['/sign']
+        command: () => { this.display = true;}
       },
       {
         label: "Se connecter",
@@ -30,6 +33,8 @@ export class MenuComponent implements OnInit {
         routerLink: ['/auth']
       },
     ];
-  }
+  };
+
+  onSubmit(form: NgForm) { };
 
 }
