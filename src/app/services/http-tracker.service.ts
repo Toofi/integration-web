@@ -19,16 +19,16 @@ export class HttpTrackerService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getApiUrl() {
-    return this.apiUrl;
-  }
-
-  getIsAuth() {
+  getIsAuth(): boolean {
     return this.isAuth;
   }
 
-  setIsAuth(value: boolean) {
-    this.isAuth = value;
+  getApiUrl(): string {
+    return this.apiUrl;
+  }
+
+  getToken(): string | null {
+    return sessionStorage.getItem('trackerToken') ? sessionStorage.getItem('trackerToken') : null;
   }
 
   logIn(credentials: Credentials) {
@@ -46,7 +46,7 @@ export class HttpTrackerService {
         if(sessionStorage.getItem('trackerToken')) {
           let decoded: User = await jwt_decode(result.toString());          
           decoded._id ? sessionStorage.setItem('trackerId', decoded._id.toString()) : null;      
-          this.setIsAuth(true);
+          this.isAuth = true;
         }
       }, (error) => {
         console.log('Oups', error);
@@ -56,7 +56,7 @@ export class HttpTrackerService {
   logOut() {
     sessionStorage.removeItem('trackerToken');
     sessionStorage.removeItem('trackerId')
-    this.setIsAuth(false);
+    this.isAuth = false;
     
   }
 }

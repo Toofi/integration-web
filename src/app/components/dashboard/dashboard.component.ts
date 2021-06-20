@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
     private httpTracker: HttpTrackerService) {
 
   }
-  
+
   getProducts() {
     this.productsService.getProducts().subscribe(prod => {
       this.products = Object.values(prod);
@@ -34,10 +34,16 @@ export class DashboardComponent implements OnInit {
 
   removeProduct(product: Product, productId: string) {
     const index = this.products.indexOf(product);
-    console.log(productId);
+    if(index !== -1) {
+      try {
+        this.productsService.removeProduct(productId).subscribe(() => console.log("Suppression réussie"));
+        this.products.splice(index, 1);   
+      } catch (e) {
+        console.error(e);
+      }
+    }
 
-    this.productsService.removeProduct(productId).subscribe(() => console.log("Suppression réussie"));
-    this.products.splice(index, 1);
+
   }
 
   addProduct(f: NgForm) {
