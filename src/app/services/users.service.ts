@@ -24,7 +24,7 @@ export class UsersService {
   //   'Authorization': `Bearer ${this.token}`
   // });
 
-  constructor(private httpClient: HttpClient,
+  constructor(private readonly httpClient: HttpClient,
     private httpTracker: HttpTrackerService) { }
 
   signIn(user: User) {
@@ -50,7 +50,6 @@ export class UsersService {
     });
     return this.httpClient
       .get(`${this.httpTracker.getApiUrl()}/api/users`, { headers: headers, responseType: 'json' })
-      .subscribe((values) => console.log(values));
   };
 
   getUser(profileId: string | null) {

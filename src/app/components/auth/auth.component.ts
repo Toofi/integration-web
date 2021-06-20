@@ -12,9 +12,13 @@ export class AuthComponent implements OnInit {
 
   constructor(private httpTracker: HttpTrackerService) { }
 
-  private auth: Credentials = { username: '', password: ''};
+  private auth: Credentials = { username: '', password: '' };
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.httpTracker.logIn(this.auth).unsubscribe();
   }
 
   onSubmit(form: NgForm) {

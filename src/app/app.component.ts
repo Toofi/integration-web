@@ -31,8 +31,6 @@ export class AppComponent implements OnInit {
 
   credentials: Credentials = { username: 'Quentin', password: 'abcd1234'};
 
-  product: Product = { name: 'test2', };
-
   constructor(private primengConfig: PrimeNGConfig,) {}
 
   ngOnInit() {

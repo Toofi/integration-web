@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class HttpTrackerService {
 
-  private apiUrl = environment.apiUrl;
+  private apiUrl: string = environment.apiUrl;
   private isAuth: boolean = false;
 
   constructor(private httpClient: HttpClient) { }
