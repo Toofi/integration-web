@@ -23,26 +23,26 @@ export class ProductsService {
     private httpTracker: HttpTrackerService) { }
 
   getProducts(): Observable<object> {
-    let token: string | null = sessionStorage.getItem('trackerToken') ? sessionStorage.getItem('trackerToken') : null;
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
+    // let token: string | null = sessionStorage.getItem('trackerToken') ? sessionStorage.getItem('trackerToken') : null;
+    // let headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'Authorization': `Bearer ${token}`
+    // });
     return this.httpClient
-      .get<object>(`${this.httpTracker.getApiUrl()}/api/my-products`, { headers: headers, responseType: 'json', withCredentials: true });
+      .get<object>(`${this.httpTracker.getApiUrl()}/api/my-products`);
   }
 
   postProduct(product: Product): Observable<object> {
-    let token: string | null = sessionStorage.getItem('trackerToken') ? sessionStorage.getItem('trackerToken') : null;
-    const postHeader = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': `Bearer ${token}`
-    });
+    // let token: string | null = sessionStorage.getItem('trackerToken') ? sessionStorage.getItem('trackerToken') : null;
+    // const postHeader = new HttpHeaders({
+    //   'Content-Type': 'application/x-www-form-urlencoded',
+    //   'Authorization': `Bearer ${token}`
+    // });
     const body: HttpParams = new HttpParams()
       .set('url', product.url);
 
     return this.httpClient
-      .post(`${this.httpTracker.getApiUrl()}/api/products`, body.toString(), { headers: postHeader, withCredentials: true });
+      .post(`${this.httpTracker.getApiUrl()}/api/products`, body.toString());
   };
 
   removeProduct(productId: string) {
