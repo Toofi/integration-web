@@ -3,10 +3,12 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { HttpTrackerService } from '../services/http-tracker.service';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class PutInterceptor implements HttpInterceptor {
@@ -28,6 +30,13 @@ export class PutInterceptor implements HttpInterceptor {
         )
       });
     }
-    return next.handle(request);
+    return next.handle(request).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.httpTracker.logOut();
+        }
+        return throwError(error);
+      })
+    );
   }
 }
