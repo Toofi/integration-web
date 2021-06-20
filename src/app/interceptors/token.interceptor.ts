@@ -22,7 +22,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     const isConnected = this.httpTracker.getIsAuth();
     const token = this.httpTracker.getToken();
-    
+
     //vérifie si l'url de la requête correspond à un des éléments du tableau des urls exclues
     const isExcludePath = excludePath.find(el => new RegExp(`${el}.*`, 'g').test(request.url));
 
@@ -33,7 +33,7 @@ export class TokenInterceptor implements HttpInterceptor {
             Authorization: `Bearer ${token}`
           },
         )
-      })
+      });
     }
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
