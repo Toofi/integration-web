@@ -58,6 +58,11 @@ const appRoutes: Routes = [
       provide: HTTP_INTERCEPTORS,
       useClass: PostInterceptor,
       multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
     }
   ],
   bootstrap: [AppComponent]
