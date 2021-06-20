@@ -32,14 +32,11 @@ export class HttpTrackerService {
   }
 
   logIn(credentials: Credentials) {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
     let httpParams = new HttpParams()
     .set('username', credentials.username).set('password', credentials.password);
     
     return this.httpClient
-      .post(`${this.apiUrl}/login`, httpParams.toString(), { headers: headers, withCredentials: true })
+      .post(`${this.apiUrl}/login`, httpParams.toString())
       .subscribe(async (result) => {
         console.log("token : "+ result);
         sessionStorage.setItem('trackerToken', result.toString());
@@ -57,7 +54,6 @@ export class HttpTrackerService {
     sessionStorage.removeItem('trackerToken');
     sessionStorage.removeItem('trackerId')
     this.isAuth = false;
-    
   }
 }
 

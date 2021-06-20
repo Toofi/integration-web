@@ -17,7 +17,8 @@ import { AuthComponent } from './components/auth/auth.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SignComponent } from './components/sign/sign.component';
-import { TokenInterceptor } from './auth/token.interceptor';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { PostInterceptor } from './interceptors/post.interceptor';
 
 const appRoutes: Routes = [
   { path: 'auth', component: AuthComponent },
@@ -51,7 +52,12 @@ const appRoutes: Routes = [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
-      multi: true
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PostInterceptor,
+      multi: true,
     }
   ],
   bootstrap: [AppComponent]
