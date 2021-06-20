@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -7,6 +8,9 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+
+  display: boolean = false;
+  public modalType: number = 0;
 
   constructor() { }
 
@@ -22,14 +26,24 @@ export class MenuComponent implements OnInit {
       {
         label: "S'inscrire",
         icon: 'pi pi-fw pi-user-plus',
-        routerLink: ['/sign']
+        command: () => { 
+          this.modalType = 1;
+          this.display = true;
+        }
       },
       {
         label: "Se connecter",
         icon: 'pi pi-fw pi-home',
-        routerLink: ['/auth']
+        command: () => { 
+          this.modalType = 2;
+          this.display = true;
+        }
       },
     ];
+  };
+
+  setDisplay (value: boolean) {
+    this.display = value;
   }
 
 }

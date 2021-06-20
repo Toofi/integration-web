@@ -8,6 +8,7 @@ import jwt_decode from 'jwt-decode';
 import { User } from '../interfaces/user';
 import { Credentials } from '../interfaces/credentials';
 import { environment } from 'src/environments/environment';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -33,21 +34,19 @@ export class HttpTrackerService {
 
   logIn(credentials: Credentials) {
     let httpParams = new HttpParams()
-    .set('username', credentials.username).set('password', credentials.password);
-    
+      .set('username', credentials.username).set('password', credentials.password);
+
     return this.httpClient
       .post(`${this.apiUrl}/login`, httpParams.toString())
-      .subscribe(async (result) => {
-        console.log("token : "+ result);
+      .pipe(tap(async (result) => {
+        console.log("token : " + result);
         sessionStorage.setItem('trackerToken', result.toString());
-        if(sessionStorage.getItem('trackerToken')) {
-          let decoded: User = await jwt_decode(result.toString());          
-          decoded._id ? sessionStorage.setItem('trackerId', decoded._id.toString()) : null;      
+        if (sessionStorage.getItem('trackerToken')) {
+          let decoded: User = await jwt_decode(result.toString());
+          decoded._id ? sessionStorage.setItem('trackerId', decoded._id.toString()) : null;
           this.isAuth = true;
         }
-      }, (error) => {
-        console.log('Oups', error);
-      });
+      }));
   };
 
   logOut() {

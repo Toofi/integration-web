@@ -9,6 +9,8 @@ import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DialogModule } from 'primeng/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +47,8 @@ const appRoutes: Routes = [
     TableModule,
     PasswordModule,
     ButtonModule,
+    ProgressSpinnerModule,
+    DialogModule,
     InputTextModule,
     RouterModule.forRoot(appRoutes),
   ],

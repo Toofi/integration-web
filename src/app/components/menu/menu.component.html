@@ -4,3 +4,15 @@
     <ng-template pTemplate="end">
     </ng-template>
 </p-menubar>
+<div [ngSwitch]="modalType">
+    <div *ngSwitchCase=1>
+        <p-dialog header="S'inscrire" [(visible)]="display" [modal]="true">
+            <app-sign (display)="setDisplay($event)"></app-sign>
+        </p-dialog>
+    </div>
+    <div *ngSwitchCase=2>
+        <p-dialog header="Se connecter" [(visible)]="display" [modal]="true">
+            <app-auth (display)="setDisplay($event)"></app-auth>
+        </p-dialog>
+    </div>
+</div>

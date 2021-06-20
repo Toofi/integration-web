@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/interfaces/user';
@@ -11,6 +11,9 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./sign.component.scss']
 })
 export class SignComponent implements OnInit {
+
+  @Output() display = new EventEmitter<boolean>();
+  loading: boolean = false;
 
   private user: User = {
     username: '',
@@ -28,15 +31,24 @@ export class SignComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    this.loading = true;
     this.user.username = form.value['username'];
     this.user.firstName = form.value['firstName'];
     this.user.lastName = form.value['lastName'];
     this.user.emails[0] = form.value['emails'];
     this.user.password = form.value['password'];
     this.usersService.signIn(this.user).
-      subscribe(() => console.log("Inscription réussie"), (error) => console.log("L'inscription a échoué : ", error))
-    this.httpTracker.logIn({ username: this.user.username, password: this.user.password});
-    this.router.navigate(['/dashboard']);
+      subscribe(() => {
+        console.log("Inscription réussie")
+        this.httpTracker.logOut();
+        this.httpTracker.logIn({ username: this.user.username, password: this.user.password });
+        this.loading = false;
+        this.display.emit(false);
+        this.router.navigate(['/dashboard']);
+      },
+        (error) => {
+          console.log("L'inscription a échoué : ", error)
+        });
   }
 
 }
