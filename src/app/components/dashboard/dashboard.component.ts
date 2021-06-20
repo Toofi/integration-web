@@ -1,14 +1,7 @@
-import { CdkVirtualForOf } from '@angular/cdk/scrolling';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { HttpTrackerService } from 'src/app/services/http-tracker.service';
 import { ProductsService } from 'src/app/services/products.service';
-
-import { SortEvent } from 'primeng/api';
-import { UsersService } from 'src/app/services/users.service';
 import { Product } from 'src/app/interfaces/product';
 import { NgForm } from '@angular/forms';
-import { formatCurrency } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,13 +10,10 @@ import { formatCurrency } from '@angular/common';
 })
 export class DashboardComponent implements OnInit {
   products: any;
+  display: boolean = false;
+  loading: boolean = false;
 
-  constructor(public productsService: ProductsService,
-    private usersService: UsersService,
-    private httpClient: HttpClient,
-    private httpTracker: HttpTrackerService) {
-
-  }
+  constructor(public productsService: ProductsService) { }
 
   getProducts() {
     this.productsService.getProducts().subscribe(prod => {
@@ -36,26 +26,40 @@ export class DashboardComponent implements OnInit {
     const index = this.products.indexOf(product);
     if(index !== -1) {
       try {
-        this.productsService.removeProduct(productId).subscribe(() => console.log("Suppression réussie"));
-        this.products.splice(index, 1);   
+        this.productsService.removeProduct(productId).subscribe(() => {
+          this.products.splice(index, 1);   
+          this.getProducts();
+          console.log("Suppression réussie")
+        });
       } catch (e) {
         console.error(e);
       }
     }
-
-
-  }
+  };
 
   addProduct(f: NgForm) {
+    this.loading = true;
     const product: Product = {
       url: f.value['url']
     }
-    this.productsService.postProduct(product).subscribe(() => console.log("Ajout réussi"));
+    this.productsService.postProduct(product).subscribe(() => { 
+      this.loading = false;
+      this.closeDialog();
+
+      console.log("Ajout réussi");
+    });
+  };
+
+  showDialog() {
+    this.display = true;
+  }
+
+  closeDialog() {
+    this.display = false;
   }
 
   ngOnInit(): void {
     this.getProducts();
-
   };
 
   // this.products = this.productsService.getProducts();
