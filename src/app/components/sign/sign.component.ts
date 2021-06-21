@@ -13,6 +13,7 @@ import { UsersService } from 'src/app/services/users.service';
 export class SignComponent implements OnInit {
 
   @Output() display = new EventEmitter<boolean>();
+  @Output() isAuth = new EventEmitter<boolean>();
   loading: boolean = false;
   errors: string | null | undefined;
 
@@ -46,6 +47,7 @@ export class SignComponent implements OnInit {
           console.log("Login réussi");
           this.loading = false;
           this.display.emit(false);
+          this.isAuth.emit(true);
           this.router.navigate(['/dashboard']);
         });
       },

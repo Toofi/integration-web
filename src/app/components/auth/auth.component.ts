@@ -12,6 +12,7 @@ import { HttpTrackerService } from 'src/app/services/http-tracker.service';
 export class AuthComponent implements OnInit {
 
   @Output() display = new EventEmitter<boolean>();
+  @Output() isAuth = new EventEmitter<boolean>();
   loading: boolean = false;
   private auth: Credentials = { username: '', password: '' };
 
@@ -32,6 +33,7 @@ export class AuthComponent implements OnInit {
       console.log("Login réussi")
       this.loading = false;
       this.display.emit(false);
+      this.isAuth.emit(true);
       this.router.navigate(['/dashboard']);
     });
   }
