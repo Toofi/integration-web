@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsService } from 'src/app/services/products.service';
 import { Product } from 'src/app/interfaces/product';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,12 +14,12 @@ export class DashboardComponent implements OnInit {
   display: boolean = false;
   loading: boolean = false;
 
-  constructor(public productsService: ProductsService) { }
+  constructor(public productsService: ProductsService,
+    private router: Router) { }
 
   getProducts() {
     this.productsService.getProducts().subscribe(prod => {
       this.products = Object.values(prod);
-      console.log(this.products);
     });
   };
 
@@ -29,7 +30,8 @@ export class DashboardComponent implements OnInit {
         this.productsService.removeProduct(productId).subscribe(() => {
           this.products.splice(index, 1);   
           this.getProducts();
-          console.log("Suppression réussie")
+          console.log("Suppression réussie");
+          this.ngOnInit();
         });
       } catch (e) {
         console.error(e);
@@ -45,8 +47,8 @@ export class DashboardComponent implements OnInit {
     this.productsService.postProduct(product).subscribe(() => { 
       this.loading = false;
       this.closeDialog();
-
       console.log("Ajout réussi");
+      this.ngOnInit();
     });
   };
 

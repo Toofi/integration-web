@@ -26,7 +26,6 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value['name']);
     this.auth.username = form.value['name'];
     this.auth.password = form.value['password'];
     this.httpTracker.logIn(this.auth).subscribe(() => {

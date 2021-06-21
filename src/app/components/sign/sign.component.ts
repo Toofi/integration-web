@@ -14,6 +14,7 @@ export class SignComponent implements OnInit {
 
   @Output() display = new EventEmitter<boolean>();
   loading: boolean = false;
+  errors: string | null | undefined;
 
   private user: User = {
     username: '',
@@ -41,13 +42,17 @@ export class SignComponent implements OnInit {
       subscribe(() => {
         console.log("Inscription réussie")
         this.httpTracker.logOut();
-        this.httpTracker.logIn({ username: this.user.username, password: this.user.password });
-        this.loading = false;
-        this.display.emit(false);
-        this.router.navigate(['/dashboard']);
+        this.httpTracker.logIn({ username: this.user.username, password: this.user.password }).subscribe(() => {
+          console.log("Login réussi");
+          this.loading = false;
+          this.display.emit(false);
+          this.router.navigate(['/dashboard']);
+        });
       },
         (error) => {
-          console.log("L'inscription a échoué : ", error)
+          console.log("L'inscription a échoué : ", error);
+          this.loading = false;
+          this.errors = "L'inscription a échoué";
         });
   }
 
