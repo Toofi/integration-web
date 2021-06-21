@@ -1,4 +1,5 @@
 <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div *ngIf="errors" style="color: red; font-weight: 800;">{{errors}}</div>
     <span class="p-float-label">
         <input id="float-input" type="text" name="username" pInputText ngModel>
         <label for="float-input">Nom d'utilisateur</label>
