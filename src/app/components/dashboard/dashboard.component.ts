@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   getProducts() {
     this.productsService.getProducts().subscribe(prod => {
       this.products = Object.values(prod);
+      console.log(this.products);
     });
   };
 

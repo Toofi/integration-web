@@ -34,8 +34,7 @@ export class UsersService {
 
   getUser(profileId: string | null) {
     return this.httpClient
-      .get(`${this.httpTracker.getApiUrl()}/api/profile/${profileId}`)
-      .subscribe((values) => console.log(values));
+      .get(`${this.httpTracker.getApiUrl()}/api/profile/${profileId}`);
   }
 
   putUser(user: User) {

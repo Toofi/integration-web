@@ -2,17 +2,25 @@
     <ng-template pTemplate="start">
     </ng-template>
     <ng-template pTemplate="end">
+        <div *ngIf="isAuth && user">
+            Connecté : {{user.username}}
+        </div>
     </ng-template>
 </p-menubar>
 <div [ngSwitch]="modalType">
     <div *ngSwitchCase=1>
         <p-dialog header="S'inscrire" [(visible)]="display" [modal]="true">
-            <app-sign (display)="setDisplay($event)"></app-sign>
+            <app-sign (display)="setDisplay($event)" (isAuth)="setAuth($event)"></app-sign>
         </p-dialog>
     </div>
     <div *ngSwitchCase=2>
         <p-dialog header="Se connecter" [(visible)]="display" [modal]="true">
-            <app-auth (display)="setDisplay($event)"></app-auth>
+            <app-auth (display)="setDisplay($event)" (isAuth)="setAuth($event)"></app-auth>
+        </p-dialog>
+    </div>
+    <div *ngSwitchCase=3>
+        <p-dialog header="Se déconnecter" [(visible)]="display" [modal]="true">
+            <app-logout (display)="setDisplay($event)" (isAuth)="setAuth($event)"></app-logout>
         </p-dialog>
     </div>
 </div>

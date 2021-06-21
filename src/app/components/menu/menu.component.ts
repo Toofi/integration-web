@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
+import { HttpTrackerService } from 'src/app/services/http-tracker.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,10 +12,12 @@ export class MenuComponent implements OnInit {
 
   display: boolean = false;
   public modalType: number = 0;
-
-  constructor() { }
-
+  isAuth: Boolean = this.httpTracker.getIsAuth();
+  user: any;
   items: MenuItem[] = [];
+
+  constructor(public httpTracker: HttpTrackerService,
+    public usersService: UsersService) { }
 
   ngOnInit() {
     this.items = [
@@ -26,7 +29,7 @@ export class MenuComponent implements OnInit {
       {
         label: "S'inscrire",
         icon: 'pi pi-fw pi-user-plus',
-        command: () => { 
+        command: () => {
           this.modalType = 1;
           this.display = true;
         }
@@ -34,15 +37,33 @@ export class MenuComponent implements OnInit {
       {
         label: "Se connecter",
         icon: 'pi pi-fw pi-home',
-        command: () => { 
+        command: () => {
           this.modalType = 2;
+          this.display = true;
+        }
+      },
+      {
+        label: "Se déconnecter",
+        icon: 'pi pi-fw pi-home',
+        command: () => {
+          this.modalType = 3;
           this.display = true;
         }
       },
     ];
   };
 
-  setDisplay (value: boolean) {
+  setAuth(value: boolean) {
+    this.isAuth = value;
+    if (this.isAuth === true) {
+      this.usersService.getUser(sessionStorage.getItem('trackerId')).subscribe((user) => {
+        this.user = user;
+        console.log(user);
+      });
+    }
+  }
+
+  setDisplay(value: boolean) {
     this.display = value;
   }
 
