@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,16 +14,20 @@ import { HttpTrackerService } from 'src/app/services/http-tracker.service';
 export class AuthComponent implements OnInit, OnDestroy {
 
   @Output() display = new EventEmitter<boolean>();
-  @Output() isAuth = new EventEmitter<boolean>();
+  @Output() isAuthentified = new EventEmitter<boolean>();
   loading: boolean = false;
   private auth: Credentials = { username: '', password: '' };
   private _destroy$: Subject<boolean> = new Subject<boolean>();
 
+  authForm: FormGroup | any;
+
   constructor(private httpTracker: HttpTrackerService,
-    private router: Router) { }
+    private router: Router,
+    private formBuilder: FormBuilder) { }
 
 
   ngOnInit(): void {
+    this.initForm();
   }
 
   ngOnDestroy() {
@@ -32,18 +36,25 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
 
-  onSubmit(form: NgForm) {
-    this.auth.username = form.value['name'];
-    this.auth.password = form.value['password'];
+  onSubmit() {
+    this.auth.username = this.authForm.value['username'];
+    this.auth.password = this.authForm.value['password'];
     this.httpTracker.logIn(this.auth)
     .pipe(takeUntil(this._destroy$))    
     .subscribe(() => {
       console.log("Login réussi")
       this.loading = false;
       this.display.emit(false);
-      this.isAuth.emit(true);
+      this.isAuthentified.emit(true);
       this.router.navigate(['/dashboard']);
     });
   }
+
+  initForm() {
+    this.authForm = this.formBuilder.group({
+      username: '',
+      password: ''
+    });
+  };
 
 }

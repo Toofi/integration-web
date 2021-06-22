@@ -2,7 +2,7 @@
     <ng-template pTemplate="start">
     </ng-template>
     <ng-template pTemplate="end">
-        <div *ngIf="isAuth && user">
+        <div *ngIf="user">
             Connecté : {{user.username}}
         </div>
     </ng-template>
@@ -15,7 +15,7 @@
     </div>
     <div *ngSwitchCase=2>
         <p-dialog header="Se connecter" [(visible)]="display" [modal]="true">
-            <app-auth (display)="setDisplay($event)" (isAuth)="setAuth($event)"></app-auth>
+            <app-auth (display)="setDisplay($event)" (isAuthentified)="setAuth($event)"></app-auth>
         </p-dialog>
     </div>
     <div *ngSwitchCase=3>
