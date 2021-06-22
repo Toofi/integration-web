@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class SignComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   errors: string | null | undefined;
   private _destroy$: Subject<boolean> = new Subject<boolean>();
-
+  signForm: FormGroup | any;
 
   private user: User = {
     username: '',
@@ -31,9 +31,11 @@ export class SignComponent implements OnInit, OnDestroy {
 
   constructor(private usersService: UsersService,
     private httpTracker: HttpTrackerService,
-    private router: Router) { }
+    private router: Router,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.initForm();
   }
 
   ngOnDestroy() {
@@ -41,14 +43,14 @@ export class SignComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit() {
     this.loading = true;
-    this.user.username = form.value['username'];
-    this.user.firstName = form.value['firstName'];
-    this.user.lastName = form.value['lastName'];
-    this.user.emails[0] = form.value['emails'];
-    this.user.password = form.value['password'];
-    const subscription = this.usersService.signIn(this.user)
+    this.user.username = this.signForm.value['username'];
+    this.user.firstName = this.signForm.value['firstName'];
+    this.user.lastName = this.signForm.value['lastName'];
+    this.user.emails[0] = this.signForm.value['emails'];
+    this.user.password = this.signForm.value['password'];
+    this.usersService.signIn(this.user)
       .pipe(takeUntil(this._destroy$))
       .subscribe(() => {
         console.log("Inscription réussie")
@@ -68,6 +70,12 @@ export class SignComponent implements OnInit, OnDestroy {
           this.loading = false;
           this.errors = "L'inscription a échoué";
         });
-  }
+  };
+
+  initForm() {
+    this.signForm = this.formBuilder.group(
+      this.user
+    );
+  };
 
 }

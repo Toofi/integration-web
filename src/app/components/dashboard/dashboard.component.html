@@ -21,9 +21,9 @@
     </ng-template>
 </p-table>
 <p-dialog header="Ajouter un produit" [(visible)]="display" [modal]="true">
-    <form *ngIf="!loading" (ngSubmit)="addProduct(f)" #f="ngForm">
+    <form *ngIf="!loading" [formGroup]="productForm" (ngSubmit)="addProduct()">
         <span class="p-float-label" style="margin: 20px;">
-            <input id="float-input" type="text" name="url" pInputText ngModel>
+            <input id="float-input" type="text" name="url" formControlName="url" pInputText>
             <label for="float-input">Url</label>
         </span>
         <p-button type="submit" label="Traquer le produit !"></p-button>

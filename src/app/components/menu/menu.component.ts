@@ -64,13 +64,15 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   setAuth(value: boolean) {
     this.isAuth = value;
-    if (this.isAuth === true) {
+    if (this.isAuth === true) {  
       this.usersService.getUser(sessionStorage.getItem('trackerId'))
         .pipe(takeUntil(this._destroy$))
         .subscribe((user) => {
           this.user = user;
           console.log(user);
-        });
+        },
+        (error) => console.log(error)
+        );
     }
   };
 

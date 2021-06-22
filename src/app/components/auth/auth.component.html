@@ -1,10 +1,10 @@
-<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
     <span class="p-float-label">
-        <input id="float-input" type="text" name="name" pInputText ngModel>
+        <input id="float-input" type="text" name="name" formControlName="username" pInputText>
         <label for="float-input">Nom d'utilisateur</label>
     </span>
     <span class="p-float-label">
-        <input id="float-input" type="password" name="password" pPassword ngModel>
+        <input id="float-input" type="password" name="password" formControlName="password" pPassword>
         <label for="float-input">Mot de passe</label>
     </span>
     <p-button type="submit" label="Se connecter"></p-button>

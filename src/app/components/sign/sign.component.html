@@ -1,23 +1,23 @@
-<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+<form [formGroup]="signForm" (ngSubmit)="onSubmit()">
     <div *ngIf="errors" style="color: red; font-weight: 800;">{{errors}}</div>
     <span class="p-float-label">
-        <input id="float-input" type="text" name="username" pInputText ngModel>
+        <input id="float-input" type="text" name="username" formControlName="username" pInputText>
         <label for="float-input">Nom d'utilisateur</label>
     </span>
     <span class="p-float-label">
-        <input id="float-input" type="text" name="firstName" pInputText ngModel>
+        <input id="float-input" type="text" name="firstName" formControlName="firstName" pInputText>
         <label for="float-input">Prénom</label>
     </span>
     <span class="p-float-label">
-        <input id="float-input" type="text" name="lastName" pInputText ngModel>
+        <input id="float-input" type="text" name="lastName" formControlName="lastName" pInputText>
         <label for="float-input">Nom</label>
     </span>
     <span class="p-float-label">
-        <input id="float-input" type="text" name="emails" pInputText ngModel>
+        <input id="float-input" type="text" name="emails" formControlName="emails" pInputText>
         <label for="float-input">E-mails</label>
     </span>
     <span class="p-float-label">
-        <input id="float-input" type="password" name="password" pPassword ngModel>
+        <input id="float-input" type="password" name="password" formControlName="password" pPassword>
         <label for="float-input">Mot de passe</label>
     </span>
     <p-button type="submit" label="Se connecter"></p-button>

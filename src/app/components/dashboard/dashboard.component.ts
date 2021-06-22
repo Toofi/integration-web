@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductsService } from 'src/app/services/products.service';
 import { Product } from 'src/app/interfaces/product';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -17,8 +16,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   private _destroy$: Subject<boolean> = new Subject<boolean>();
 
+  productForm: FormGroup | any;
+
   constructor(public productsService: ProductsService,
-    private router: Router) { }
+    private formBuilder: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.getProducts();
+    this.initForm();
+  };
 
   ngOnDestroy() {
     this._destroy$.next(true);
@@ -52,11 +58,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   };
 
-  addProduct(f: NgForm) {
+  addProduct() {
     this.loading = true;
+    const formValue = this.productForm.value;
     const product: Product = {
-      url: f.value['url']
-    }
+      url: formValue['url']
+    };
     this.productsService.postProduct(product)
       .pipe(takeUntil(this._destroy$))
       .subscribe(() => {
@@ -75,10 +82,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.display = false;
   }
 
-  ngOnInit(): void {
-    this.getProducts();
+  initForm() {
+    this.productForm = this.formBuilder.group({ url: '' });
   };
 
-  // this.products = this.productsService.getProducts();
-  // console.log(this.products[0].prices[0].price.$numberDecimal);
 }
