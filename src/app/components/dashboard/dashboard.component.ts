@@ -1,39 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductsService } from 'src/app/services/products.service';
 import { Product } from 'src/app/interfaces/product';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   products: any;
   display: boolean = false;
   loading: boolean = false;
+  private _destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public productsService: ProductsService,
     private router: Router) { }
 
+  ngOnDestroy() {
+    this._destroy$.next(true);
+    this._destroy$.complete();
+  }
+
   getProducts() {
-    this.productsService.getProducts().subscribe(prod => {
-      this.products = Object.values(prod);
-      console.log(this.products);
-    });
+    this.productsService.getProducts()
+      .pipe(takeUntil(this._destroy$))
+      .subscribe(prod => {
+        this.products = Object.values(prod);
+        console.log(this.products);
+      });
   };
 
   removeProduct(product: Product, productId: string) {
     const index = this.products.indexOf(product);
-    if(index !== -1) {
+    if (index !== -1) {
       try {
-        this.productsService.removeProduct(productId).subscribe(() => {
-          this.products.splice(index, 1);   
-          this.getProducts();
-          console.log("Suppression réussie");
-          this.ngOnInit();
-        });
+        this.productsService.removeProduct(productId)
+          .pipe(takeUntil(this._destroy$))
+          .subscribe(() => {
+            this.products.splice(index, 1);
+            this.getProducts();
+            console.log("Suppression réussie");
+            this.ngOnInit();
+          });
       } catch (e) {
         console.error(e);
       }
@@ -45,12 +57,14 @@ export class DashboardComponent implements OnInit {
     const product: Product = {
       url: f.value['url']
     }
-    this.productsService.postProduct(product).subscribe(() => { 
-      this.loading = false;
-      this.closeDialog();
-      console.log("Ajout réussi");
-      this.ngOnInit();
-    });
+    this.productsService.postProduct(product)
+      .pipe(takeUntil(this._destroy$))
+      .subscribe(() => {
+        this.loading = false;
+        this.closeDialog();
+        console.log("Ajout réussi");
+        this.ngOnInit();
+      });
   };
 
   showDialog() {
