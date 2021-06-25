@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductsService } from 'src/app/services/products.service';
 import { Product } from 'src/app/interfaces/product';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Prices } from 'src/app/interfaces/prices';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,43 +19,43 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   productForm: FormGroup | any;
 
-
+  pricesArray: Array<Prices> = [];
 
   data: any;
-    
+
   options: any;
 
 
   constructor(public productsService: ProductsService,
     private formBuilder: FormBuilder) {
-      this.data = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-            {
-                label: 'First Dataset',
-                data: [65, 59, 80, 81, 56, 55, 40]
-            },
-            {
-                label: 'Second Dataset',
-                data: [28, 48, 40, 19, 86, 27, 90]
-            }
-        ]
+    this.data = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'First Dataset',
+          data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+          label: 'Second Dataset',
+          data: [28, 48, 40, 19, 86, 27, 90]
+        }
+      ]
     }
-    
+
     this.options = {
       labels: {
         display: false,
       },
-        title: {
-            display: false,
-            fontSize: 16
-        },
-        legend: {
-          display:false,
-            position: 'bottom'
-        }
+      title: {
+        display: false,
+        fontSize: 16
+      },
+      legend: {
+        display: false,
+        position: 'bottom'
+      }
     };
-     }
+  }
 
   ngOnInit(): void {
     this.getProducts();
@@ -71,24 +72,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroy$))
       .subscribe(prod => {
         this.products = Object.values(prod);
-        console.log(this.products);
-        this.populatePrices(this.products);
+
+        this.pricesArray = this.products.map((element: any) => this.populatePrices(element));
+        console.log(this.pricesArray);
+
       });
   };
 
-  populatePrices(products: any) {
-    let priceObj = {
-      date: [],
-      price: [],
-    }
-    let arrayObj: Array<any> = [];
-    for (let index = 0; index < products.length; index++) {
-      arrayObj = products.map((element: { prices: any; }) => element.prices);
-    }
-    for (let index = 0; index < arrayObj.length; index++) {
-      priceObj.date = arrayObj.map((element: { prices: any; }) => element.prices)
-    }
-    console.log(arrayObj);
+  populatePrices(products: any): Prices {
+    let prices: Array<any> = [];
+    let pricesObj: Prices = {
+      dates: [],
+      prices: []
+    };
+    prices = products.prices;
+    pricesObj.dates = prices.map((element: { date: any; }) => element.date);
+    pricesObj.prices = prices.map((element: { price: { $numberDecimal: any; }; }) => element.price.$numberDecimal);
+    return pricesObj;
   };
 
   removeProduct(product: Product, productId: string) {
