@@ -18,8 +18,43 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   productForm: FormGroup | any;
 
+
+
+  data: any;
+    
+  options: any;
+
+
   constructor(public productsService: ProductsService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {
+      this.data = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [
+            {
+                label: 'First Dataset',
+                data: [65, 59, 80, 81, 56, 55, 40]
+            },
+            {
+                label: 'Second Dataset',
+                data: [28, 48, 40, 19, 86, 27, 90]
+            }
+        ]
+    }
+    
+    this.options = {
+      labels: {
+        display: false,
+      },
+        title: {
+            display: false,
+            fontSize: 16
+        },
+        legend: {
+          display:false,
+            position: 'bottom'
+        }
+    };
+     }
 
   ngOnInit(): void {
     this.getProducts();
@@ -37,7 +72,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(prod => {
         this.products = Object.values(prod);
         console.log(this.products);
+        this.populatePrices(this.products);
       });
+  };
+
+  populatePrices(products: any) {
+    let priceObj = {
+      date: [],
+      price: [],
+    }
+    let arrayObj: Array<any> = [];
+    for (let index = 0; index < products.length; index++) {
+      arrayObj = products.map((element: { prices: any; }) => element.prices);
+    }
+    for (let index = 0; index < arrayObj.length; index++) {
+      priceObj.date = arrayObj.map((element: { prices: any; }) => element.prices)
+    }
+    console.log(arrayObj);
   };
 
   removeProduct(product: Product, productId: string) {
@@ -85,5 +136,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   initForm() {
     this.productForm = this.formBuilder.group({ url: '' });
   };
+
+
 
 }

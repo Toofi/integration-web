@@ -15,6 +15,7 @@
                 <span *ngFor="let price of product.prices">
                     {{price.price.$numberDecimal}}
                 </span>
+                <p-chart type="line" [data]="data" [options]="options" width="250px"></p-chart>
             </td>
             <td><p-button type="submit" (click)="removeProduct(product, product.productId)" label="Supprimer"></p-button></td>
         </tr>
