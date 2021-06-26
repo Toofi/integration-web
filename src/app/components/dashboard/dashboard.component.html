@@ -9,12 +9,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-product let-rowIndex="rowIndex" async>
         <tr>
-            <td>{{product.name}}</td>
+            <td>{{product.name | truncateText }}</td>
             <td><img [src]="product.image" [alt]="product.name" width="100" class="p-shadow-4" /></td>
             <td>
-                <span *ngFor="let price of product.prices">
-                    {{price.price.$numberDecimal}}
-                </span>
                 <p-chart type="line" [data]="chartsArray[rowIndex]" [options]="options" width="250px"></p-chart>
             </td>
             <td><p-button type="submit" (click)="removeProduct(product, product.productId)" label="Supprimer"></p-button></td>

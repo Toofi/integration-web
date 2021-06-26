@@ -24,6 +24,7 @@ import { SignComponent } from './components/sign/sign.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PostInterceptor } from './interceptors/post.interceptor';
 import { LogoutComponent } from './components/logout/logout.component';
+import { TruncateTextPipe } from './pipes/truncate-text.pipe';
 
 const appRoutes: Routes = [
   { path: 'auth', component: AuthComponent },
@@ -39,6 +40,7 @@ const appRoutes: Routes = [
     DashboardComponent,
     SignComponent,
     LogoutComponent,
+    TruncateTextPipe,
 
   ],
   imports: [
