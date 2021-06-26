@@ -12,6 +12,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogModule } from 'primeng/dialog';
+import { ChartModule } from 'primeng/chart';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     MenubarModule,
     TableModule,
+    ChartModule,
     PasswordModule,
     ButtonModule,
     ProgressSpinnerModule,

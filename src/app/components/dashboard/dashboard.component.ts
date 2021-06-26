@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductsService } from 'src/app/services/products.service';
 import { Product } from 'src/app/interfaces/product';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Prices } from 'src/app/interfaces/prices';
+import { Chart, Dataset } from 'src/app/interfaces/chart';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,8 +20,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   productForm: FormGroup | any;
 
+  pricesArray: Array<Prices> = [];
+  chartsArray: Array<Chart> = [];
+  chart: Chart = { labels: [], datasets: [] };
+  dataset: Dataset = { label: '', data: [] };
+  options: any;
+
   constructor(public productsService: ProductsService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {
+
+    this.options = {
+      scales: {
+        xAxes: [{
+          ticks: {
+            display: false
+          }
+        }]
+      },
+      labels: {
+        display: false,
+      },
+      title: {
+        display: false,
+        fontSize: 16
+      },
+      legend: {
+        display: false,
+      }
+    };
+  }
 
   ngOnInit(): void {
     this.getProducts();
@@ -36,8 +65,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroy$))
       .subscribe(prod => {
         this.products = Object.values(prod);
-        console.log(this.products);
+
+        this.pricesArray = this.products.map((element: any) => this.populatePrices(element));
+        console.log(this.pricesArray);
+        this.chartsArray = this.pricesArray.map(element => this.populateChart(element.prices, element.dates));
+        console.log(this.chartsArray);
       });
+  };
+
+  populateChart(prices: Array<number>, dates: Array<string>): Chart {
+    return this.chart = {
+      labels: dates.slice(-10),
+      datasets: [
+        {
+          label: 'Prix',
+          data: prices.slice(-10)
+        },
+      ]
+    };
+  };
+
+  populatePrices(products: any): Prices {
+    let prices: Array<any> = [];
+    let pricesObj: Prices = {
+      dates: [],
+      prices: []
+    };
+    prices = products.prices;
+    pricesObj.dates = prices.map((element: { date: any; }) => element.date);
+    pricesObj.prices = prices.map((element: { price: { $numberDecimal: any; }; }) => parseFloat(element.price.$numberDecimal));
+    return pricesObj;
   };
 
   removeProduct(product: Product, productId: string) {
@@ -85,5 +142,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   initForm() {
     this.productForm = this.formBuilder.group({ url: '' });
   };
+
+
 
 }
