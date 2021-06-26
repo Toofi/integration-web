@@ -22,10 +22,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   pricesArray: Array<Prices> = [];
   chartsArray: Array<Chart> = [];
-  chart: Chart = { labels: [], datasets: []};
-  dataset: Dataset = { label: '', data: []};
-
-  data: any;
+  chart: Chart = { labels: [], datasets: [] };
+  dataset: Dataset = { label: '', data: [] };
   options: any;
 
   iterDate(array: Array<any>): Array<any> {
@@ -36,17 +34,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(public productsService: ProductsService,
     private formBuilder: FormBuilder) {
 
-    this.data = {
-      labels: ['coucou', 'coucou2'],
-      datasets: [
-        {
-          label: 'Prix',
-          data: ['1', '2']
-        },
-      ]
-    };
-
     this.options = {
+      scales: {
+        xAxes: [{
+          ticks: {
+            display: false
+          }
+        }]
+      },
       labels: {
         display: false,
       },
@@ -56,7 +51,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       legend: {
         display: false,
-        position: 'bottom'
       }
     };
   }
@@ -85,12 +79,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
 
   populateChart(prices: Array<number>, dates: Array<string>): Chart {
-    return this.data = {
-      labels: dates,
+    return this.chart = {
+      labels: dates.slice(-10),
       datasets: [
         {
           label: 'Prix',
-          data: prices
+          data: prices.slice(-10)
         },
       ]
     };
