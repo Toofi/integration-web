@@ -26,11 +26,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dataset: Dataset = { label: '', data: [] };
   options: any;
 
-  iterDate(array: Array<any>): Array<any> {
-
-    return [];
-  };
-
   constructor(public productsService: ProductsService,
     private formBuilder: FormBuilder) {
 
