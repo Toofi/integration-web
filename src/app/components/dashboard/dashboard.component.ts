@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Prices } from 'src/app/interfaces/prices';
+import { Chart, Dataset } from 'src/app/interfaces/chart';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,27 +21,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
   productForm: FormGroup | any;
 
   pricesArray: Array<Prices> = [];
+  chartsArray: Array<Chart> = [];
+  chart: Chart = { labels: [], datasets: []};
+  dataset: Dataset = { label: '', data: []};
 
   data: any;
-
   options: any;
 
+  iterDate(array: Array<any>): Array<any> {
+
+    return [];
+  };
 
   constructor(public productsService: ProductsService,
     private formBuilder: FormBuilder) {
+
     this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: ['coucou', 'coucou2'],
       datasets: [
         {
-          label: 'First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40]
+          label: 'Prix',
+          data: ['1', '2']
         },
-        {
-          label: 'Second Dataset',
-          data: [28, 48, 40, 19, 86, 27, 90]
-        }
       ]
-    }
+    };
 
     this.options = {
       labels: {
@@ -75,8 +79,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         this.pricesArray = this.products.map((element: any) => this.populatePrices(element));
         console.log(this.pricesArray);
-
+        this.chartsArray = this.pricesArray.map(element => this.populateChart(element.prices, element.dates));
+        console.log(this.chartsArray);
       });
+  };
+
+  populateChart(prices: Array<number>, dates: Array<string>): Chart {
+    return this.data = {
+      labels: dates,
+      datasets: [
+        {
+          label: 'Prix',
+          data: prices
+        },
+      ]
+    };
   };
 
   populatePrices(products: any): Prices {
@@ -87,7 +104,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
     prices = products.prices;
     pricesObj.dates = prices.map((element: { date: any; }) => element.date);
-    pricesObj.prices = prices.map((element: { price: { $numberDecimal: any; }; }) => element.price.$numberDecimal);
+    pricesObj.prices = prices.map((element: { price: { $numberDecimal: any; }; }) => parseFloat(element.price.$numberDecimal));
     return pricesObj;
   };
 

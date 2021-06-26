@@ -1,4 +1,4 @@
 export interface Prices {
-        dates: any,
-        prices: any
+        dates: Array<string>,
+        prices: Array<number>
 }

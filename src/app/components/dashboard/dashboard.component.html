@@ -1,4 +1,4 @@
-<p-table [value]="products" [lazy]="true" (onLazyLoad)="this.productsService.getProducts()">
+<p-table [value]="products" [lazy]="true" (onLazyLoad)="this.productsService.getProducts()" styleClass="p-datatable-sm">
     <ng-template pTemplate="header">
         <tr>
             <th>Name</th>
@@ -7,7 +7,7 @@
             <th><p>Actions</p><p-button type="submit" (click)="showDialog()" icon="pi pi-info-circle" label="Enregistrer un nouveau produit"></p-button></th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-product async>
+    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex" async>
         <tr>
             <td>{{product.name}}</td>
             <td><img [src]="product.image" [alt]="product.name" width="100" class="p-shadow-4" /></td>
@@ -15,7 +15,7 @@
                 <span *ngFor="let price of product.prices">
                     {{price.price.$numberDecimal}}
                 </span>
-                <p-chart type="line" [data]="data" [options]="options" width="250px"></p-chart>
+                <p-chart type="line" [data]="chartsArray[rowIndex]" [options]="options" width="250px"></p-chart>
             </td>
             <td><p-button type="submit" (click)="removeProduct(product, product.productId)" label="Supprimer"></p-button></td>
         </tr>
