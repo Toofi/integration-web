@@ -2,25 +2,27 @@
     <ng-template pTemplate="header">
         <tr>
             <th>Name</th>
+            <th></th>
             <th>Image</th>
             <th>Price</th>
-            <th><p>Actions</p><p-button type="submit" (click)="showDialog('addProduct')" icon="pi pi-info-circle" label="Enregistrer un nouveau produit"></p-button></th>
+            <th><p>Actions</p><p-button type="submit" (click)="showDialog('addProduct')" icon="pi pi-plus" label="Enregistrer un nouveau produit"></p-button></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product let-rowIndex="rowIndex" async>
         <tr>
             <td>{{product.name | truncateText }}</td>
+            <td><button pButton pRipple type="button" label="Edit" class="p-button-rounded" icon="pi pi-pencil"></button></td>
             <td><img [src]="product.image" [alt]="product.name" width="100" class="p-shadow-4" /></td>
             <td>
                 <p-chart type="line" [data]="chartsArray[rowIndex]" [options]="options" width="250px"></p-chart>
             </td>
-            <td><p-button type="submit" (click)="showDialog('deleteProduct')" label="Supprimer"></p-button></td>
+            <td><button pButton pRipple type="submit" icon="pi pi-minus" (click)="showDialog('deleteProduct')" label="Supprimer" class="p-button-danger"></button></td>
         </tr>
-        <p-dialog header="Ajouter un produit" [(visible)]="confirmDisplay" [modal]="true">
+        <p-dialog header="Supprimer un produit" [(visible)]="confirmDisplay" [modal]="true">
             <span class="p-float-label">
                 Etes-vous sûr de vouloir supprimer le produit et ses prix ?
             </span>
-            <p-button type="submit" label="Supprimer" (click)="removeProduct(product, product.productId)"></p-button>
+            <button pButton pRipple type="submit" (click)="removeProduct(product, product.productId)" icon="pi pi-minus" label="Supprimer" class="p-button-danger"></button>
         </p-dialog>
     </ng-template>
 </p-table>
