@@ -15,6 +15,7 @@ import { Chart, Dataset } from 'src/app/interfaces/chart';
 export class DashboardComponent implements OnInit, OnDestroy {
   products: any;
   display: boolean = false;
+  confirmDisplay: boolean = false;
   loading: boolean = false;
   private _destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -106,6 +107,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           .subscribe(() => {
             this.products.splice(index, 1);
             this.getProducts();
+            this.closeDialog('deleteProduct');
             console.log("Suppression réussie");
             this.ngOnInit();
           });
@@ -125,18 +127,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroy$))
       .subscribe(() => {
         this.loading = false;
-        this.closeDialog();
+        this.closeDialog('addProduct');
         console.log("Ajout réussi");
         this.ngOnInit();
       });
   };
 
-  showDialog() {
-    this.display = true;
+  showDialog(action: string) {
+    if (action === 'addProduct') {
+      this.display = true;
+
+    } else if (action === 'deleteProduct') {
+      this.confirmDisplay = true;
+    }
   }
 
-  closeDialog() {
-    this.display = false;
+  closeDialog(action: string) {
+    if (action === 'addProduct') {
+      this.display = false;
+
+    } else if (action === 'deleteProduct') {
+      this.confirmDisplay = false;
+    }
   }
 
   initForm() {

@@ -1,11 +1,11 @@
-<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-    <span class="p-float-label">
-        <input id="float-input" type="text" name="name" formControlName="username" pInputText>
-        <label for="float-input">Nom d'utilisateur</label>
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()" style="width:250px">
+    <span class="p-fluid">
+        <label for="name">Nom d'utilisateur</label>
+        <input id="name" type="text" name="name" formControlName="username" pInputText>
     </span>
-    <span class="p-float-label">
-        <input id="float-input" type="password" name="password" formControlName="password" pPassword>
-        <label for="float-input">Mot de passe</label>
+    <span class="p-fluid">
+        <label for="psw">Mot de passe</label>
+        <input id="psw" type="password" name="password" formControlName="password" [feedback]="false" pPassword>
     </span>
-    <p-button type="submit" label="Se connecter"></p-button>
+    <p-button class="p-mx-auto" type="submit" label="Se connecter"></p-button>
 </form>

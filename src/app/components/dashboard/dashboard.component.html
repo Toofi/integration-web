@@ -4,7 +4,7 @@
             <th>Name</th>
             <th>Image</th>
             <th>Price</th>
-            <th><p>Actions</p><p-button type="submit" (click)="showDialog()" icon="pi pi-info-circle" label="Enregistrer un nouveau produit"></p-button></th>
+            <th><p>Actions</p><p-button type="submit" (click)="showDialog('addProduct')" icon="pi pi-info-circle" label="Enregistrer un nouveau produit"></p-button></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product let-rowIndex="rowIndex" async>
@@ -14,8 +14,14 @@
             <td>
                 <p-chart type="line" [data]="chartsArray[rowIndex]" [options]="options" width="250px"></p-chart>
             </td>
-            <td><p-button type="submit" (click)="removeProduct(product, product.productId)" label="Supprimer"></p-button></td>
+            <td><p-button type="submit" (click)="showDialog('deleteProduct')" label="Supprimer"></p-button></td>
         </tr>
+        <p-dialog header="Ajouter un produit" [(visible)]="confirmDisplay" [modal]="true">
+            <span class="p-float-label">
+                Etes-vous sûr de vouloir supprimer le produit et ses prix ?
+            </span>
+            <p-button type="submit" label="Supprimer" (click)="removeProduct(product, product.productId)"></p-button>
+        </p-dialog>
     </ng-template>
 </p-table>
 <p-dialog header="Ajouter un produit" [(visible)]="display" [modal]="true">

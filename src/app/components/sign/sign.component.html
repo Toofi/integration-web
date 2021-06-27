@@ -1,24 +1,24 @@
-<form [formGroup]="signForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="signForm" (ngSubmit)="onSubmit()" style="width:250px">
     <div *ngIf="errors" style="color: red; font-weight: 800;">{{errors}}</div>
-    <span class="p-float-label">
-        <input id="float-input" type="text" name="username" formControlName="username" pInputText>
+    <span class="p-fluid">
         <label for="float-input">Nom d'utilisateur</label>
+        <input id="float-input" type="text" name="username" formControlName="username" pInputText>
     </span>
-    <span class="p-float-label">
-        <input id="float-input" type="text" name="firstName" formControlName="firstName" pInputText>
+    <span class="p-fluid">
         <label for="float-input">Prénom</label>
+        <input id="float-input" type="text" name="firstName" formControlName="firstName" pInputText>
     </span>
-    <span class="p-float-label">
-        <input id="float-input" type="text" name="lastName" formControlName="lastName" pInputText>
+    <span class="p-fluid">
         <label for="float-input">Nom</label>
+        <input id="float-input" type="text" name="lastName" formControlName="lastName" pInputText>
     </span>
-    <span class="p-float-label">
-        <input id="float-input" type="text" name="emails" formControlName="emails" pInputText>
+    <span class="p-fluid">
         <label for="float-input">E-mails</label>
+        <input id="float-input" type="text" name="emails" formControlName="emails" pInputText>
     </span>
-    <span class="p-float-label">
-        <input id="float-input" type="password" name="password" formControlName="password" pPassword>
+    <span class="p-fluid">
         <label for="float-input">Mot de passe</label>
+        <input id="float-input" type="password" name="password" formControlName="password" pPassword>
     </span>
     <p-button type="submit" label="Se connecter"></p-button>
 </form>
