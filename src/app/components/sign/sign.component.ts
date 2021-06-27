@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class SignComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   errors: string | null | undefined;
   private _destroy$: Subject<boolean> = new Subject<boolean>();
-  signForm: FormGroup | any;
+  signForm: FormGroup = new FormGroup({});
 
   private user: User = {
     username: '',
@@ -62,6 +62,7 @@ export class SignComponent implements OnInit, OnDestroy {
             this.loading = false;
             this.display.emit(false);
             this.isAuth.emit(true);
+            this.router.navigateByUrl('/', { skipLocationChange: true});
             this.router.navigate(['/dashboard']);
           });
       },
