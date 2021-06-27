@@ -1,11 +1,27 @@
+<div *ngIf="usernameValidityState.invalid && (usernameValidityState.dirty || usernameValidityState.touched)" style="margin-bottom: 25px; color: red;">
+    <div *ngIf="usernameValidityState.errors?.required">
+        Il manque le nom.
+    </div>
+    <div *ngIf="usernameValidityState.errors?.maxLength">
+        Le nom d'utilisateur doit faire moins de 35 caractères.
+    </div>
+</div>
+<div *ngIf="passwordValidityState.invalid && (passwordValidityState.dirty || passwordValidityState.touched)" style="margin-bottom: 25px; color: red;">
+    <div *ngIf="passwordValidityState.errors?.required">
+        Il manque le mot de passe.
+    </div>
+    <div *ngIf="passwordValidityState.errors?.maxLength">
+        Le mot de passe doit faire moins de 35 caractères.
+    </div>
+</div>
 <form [formGroup]="authForm" (ngSubmit)="onSubmit()" style="width:250px">
     <span class="p-fluid">
         <label for="name">Nom d'utilisateur</label>
-        <input id="name" type="text" name="name" formControlName="username" pInputText>
+        <input id="name" type="text" name="name" formControlName="username" pInputText required>
     </span>
     <span class="p-fluid">
         <label for="psw">Mot de passe</label>
-        <input id="psw" type="password" name="password" formControlName="password" [feedback]="false" pPassword>
+        <input id="psw" type="password" name="password" formControlName="password" [feedback]="false" pPassword required>
     </span>
     <p-button class="p-mx-auto" type="submit" label="Se connecter"></p-button>
 </form>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,6 +16,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   @Output() display = new EventEmitter<boolean>();
   @Output() isAuthentified = new EventEmitter<boolean>();
   loading: boolean = false;
+  invalid : any;
   private auth: Credentials = { username: '', password: '' };
   private _destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -28,12 +29,12 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
-  }
+  };
 
   ngOnDestroy() {
     this._destroy$.next(true);
     this._destroy$.complete();
-  }
+  };
 
 
   onSubmit() {
@@ -48,13 +49,17 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.isAuthentified.emit(true);
       this.router.navigate(['/dashboard']);
     });
-  }
+  };
 
   initForm() {
     this.authForm = this.formBuilder.group({
-      username: '',
-      password: ''
+      username: new FormControl('', [Validators.required, Validators.maxLength(35)]),
+      password: new FormControl('', [Validators.required, Validators.maxLength(35)])
     });
   };
+
+  get usernameValidityState() { return this.authForm.get('username'); }
+  get passwordValidityState() { return this.authForm.get('password'); }
+
 
 }
